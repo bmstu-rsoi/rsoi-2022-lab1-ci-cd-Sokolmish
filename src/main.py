@@ -3,14 +3,16 @@ from api_messages import *
 
 import flask
 from flask_api import status
-from typing import List
-import sys
-
 import psycopg2
 
+from typing import List
+import sys
+import os
 
-conn = psycopg2.connect(dbname='persons', user='program',
-                        password='test', host='localhost')
+
+DATABASE_URL = os.environ['DATABASE_URL']
+conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+
 app = flask.Flask(__name__)
 
 
@@ -171,7 +173,10 @@ def personsRoute():
 
 
 port = 8080
+herokuPort = os.environ.get('PORT')
+if herokuPort != None:
+    port = herokuPort
 if len(sys.argv) > 1:
     port = int(sys.argv[1])
 
-app.run(debug=True, port=port)
+app.run(host="0.0.0.0", port=port)

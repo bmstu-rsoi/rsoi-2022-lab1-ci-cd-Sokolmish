@@ -10,4 +10,4 @@ COPY src/ /app/
 
 WORKDIR /app
 
-ENTRYPOINT [ "python3", "/app/main.py" ]
+CMD [ "python3", "/app/main.py" ]
