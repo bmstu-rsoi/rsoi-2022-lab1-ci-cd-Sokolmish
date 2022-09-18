@@ -23,6 +23,11 @@ jobs:
           heroku_email: "sokolmish@gmail.com"
           usedocker: true
 
+      # Because python is slooooow
+      - name: Sleep for 25 seconds
+        run: sleep 25s
+        shell: bash
+
       - name: Run API Tests
         uses: matt-ball/newman-action@master
         with:
