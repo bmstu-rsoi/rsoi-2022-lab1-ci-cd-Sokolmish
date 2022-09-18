@@ -113,7 +113,9 @@ def personRoute(id):
     if flask.request.method == 'GET':
         person = getParticularPerson(int_id)
         if person != None:
-            return person.toJSON()
+            resp = flask.Response(person.toJSON())
+            resp.headers['Content-Type'] = 'application/json'
+            return resp
         else:
             return flask.Response(
                 ErrorResponse(msg=f'There is no person with id {id}').toJSON(),
@@ -129,7 +131,9 @@ def personRoute(id):
 
         person = patchPerson(int_id, personRequest)
         if person != None:
-            return flask.Response(person.toJSON(), status.HTTP_200_OK)
+            resp = flask.Response(person.toJSON(), status.HTTP_200_OK)
+            resp.headers['Content-Type'] = 'application/json'
+            return resp
         else:
             return flask.Response(
                 ErrorResponse(msg=f'There is no person with id {id}').toJSON(),
@@ -151,7 +155,9 @@ def personRoute(id):
 def personsRoute():
     if flask.request.method == 'GET':
         persons = getAllPersons()
-        return flask.Response(arrToJson(persons))
+        resp = flask.Response(arrToJson(persons))
+        resp.headers['Content-Type'] = 'application/json'
+        return resp
 
     elif flask.request.method == 'POST':
         personRequest = parsePersonRequest(flask.request)
